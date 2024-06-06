@@ -1,0 +1,14 @@
+*** Export và Import 1 scope chỉ định trên DHCP Failover ***
+Bước 1: Backup Scope đang chạy ra ( Dùng Powershell )
+VD : VLAN 18
+Export-DhcpServer -ComputerName gmc-ad-svr02.gmc.local -Leases -File C:\Soft\dhcp-scope_5.xml -Verbose -ScopeId 10.140.18.0
+Sửa lại nội dung tùy biến
+VD : 10.140.18.0/23
+Bước 2: Gỡ bảo trạng thái Failover trên Scope vlan 18
+Bước 3 : Deactive vlan 18
+Bước 4 : Xóa scope vlan 18
+Bước 5 : Import Scope với cấu hình mới vào
+Import-DhcpServer -ComputerName gmc-ad-svr02.gmc.local -File C:\Soft\dhcp-scope_5.xml -Verbose -ScopeId 10.140.18.0 -Lease -BackupPath C:\Soft\BkDHCP1
+------------------------------------------------------------
+Link tham khảo
+https://rdr-it.io/en/troubleshooting/modify-the-subnet-mask-of-a-dhcp-scope-on-windows-server/#google_vignette
